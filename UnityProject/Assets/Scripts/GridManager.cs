@@ -23,14 +23,20 @@ public class GridManager : MonoBehaviour
         {
             Vector3 mouseWPos = UtilsClass.GetMouseWorldPosition();
             Vector2Int gridPos = pathfinding.GetGrid().GetLocalPosition(mouseWPos);
-            Debug.Log(gridPos);
+            //Debug.Log(gridPos);
+            
             List<PathNode> path = pathfinding.FindPath_AStar(0, 0, gridPos.x, gridPos.y);
-            Debug.Log(path);
+            
+            /*Debug.Log(path.Count);
+            foreach(PathNode node in path)
+            {
+                Debug.Log(node);
+            }*/
             if(path != null)
             {
                 for(int i = 0; i < path.Count - 1; ++i)
                 {
-                    Debug.DrawLine(new Vector3(path[i].x, path[i].y) * 10f + Vector3.one * 5f, new Vector3(path[i + 1].x, path[i + 1].y));
+                    Debug.DrawLine(new Vector3(path[i].x, path[i].y) * 3f + Vector3.one * 1.5f, new Vector3(path[i + 1].x, path[i + 1].y), Color.white, 100f);
                 }
             }
 

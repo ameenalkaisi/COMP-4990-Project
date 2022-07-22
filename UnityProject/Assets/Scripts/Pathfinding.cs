@@ -47,7 +47,7 @@ public class Pathfinding
         while(openList.Count > 0)
         {
             PathNode currentNode = GetLowestFCostNode(openList);
-            if (currentNode.x == endNode.x && currentNode.y == endNode.y)
+            if (currentNode == endNode)
                 return CalculatePath(endNode);
 
             openList.Remove(currentNode);
