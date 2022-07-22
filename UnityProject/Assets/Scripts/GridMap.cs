@@ -5,7 +5,7 @@ using System;
 // grid simply does the actions on the Grid
 // creation still on the developer
 // this class draws a grid, and lets you place gameobjects inside of it
-public class Grid<T>
+public class GridMap<T>
 {
     private int width, height;
     private T[,] gridArray;
@@ -16,12 +16,11 @@ public class Grid<T>
 
     private TextMesh[,] debugTextArray;
 
-
     public bool showDebug = true;
 
     // creates the grid and draws it
     // createGridObject is the function that will create an object at grid's x, y position
-    public Grid(int width, int height, float cellSize, Vector3 originPosition, Func<Grid<T>, int, int, T> createGridObject)
+    public GridMap(int width, int height, float cellSize, Vector3 originPosition, Func<GridMap<T>, int, int, T> createGridObject)
     {
         this.width = width;
         this.height = height;

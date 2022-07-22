@@ -2,20 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Pathfinding : MonoBehaviour
+public class Pathfinding
 {
     private const int MOVE_STRAIGHT_COST = 10;
 
-    private Grid<PathNode> grid;
+    private GridMap<PathNode> grid;
     private List<PathNode> openList, closedList;
 
     public Pathfinding(int width, int height, Vector3 originPosition)
     {
-        grid = new Grid<PathNode>(width, height, 3f, originPosition,
-            (Grid<PathNode> g, int x, int y) => new PathNode(g, x, y));
+        grid = new GridMap<PathNode>(width, height, 3f, originPosition,
+            (GridMap<PathNode> g, int x, int y) => new PathNode(g, x, y));
     }
 
-    public Grid<PathNode> GetGrid()
+    public GridMap<PathNode> GetGrid()
     {
         return grid;
     }
@@ -47,9 +47,6 @@ public class Pathfinding : MonoBehaviour
         while(openList.Count > 0)
         {
             PathNode currentNode = GetLowestFCostNode(openList);
-            Debug.Log("Current: " + currentNode);
-            Debug.Log("End: " + endNode);
-            Debug.Log(currentNode == endNode);
             if (currentNode.x == endNode.x && currentNode.y == endNode.y)
                 return CalculatePath(endNode);
 

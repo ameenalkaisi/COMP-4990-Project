@@ -2,15 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PathNode : MonoBehaviour
+public class PathNode
 {
-    private Grid<PathNode> grid;
+    private GridMap<PathNode> grid;
     public int x, y;
     public int gCost, hCost, fCost;
 
     public PathNode cameFromNode;
 
-    public PathNode(Grid<PathNode> grid, int x, int y)
+    public PathNode(GridMap<PathNode> grid, int x, int y)
     {
         this.grid = grid;
         this.x = x;
