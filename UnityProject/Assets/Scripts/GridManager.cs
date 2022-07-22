@@ -5,8 +5,7 @@ using CodeMonkey.Utils;
 
 public class GridManager : MonoBehaviour
 {
-	private Grid<int> grid;
-	private Transform objectTransform;
+    private Pathfinding pathfinding;
 
 	public int width, height;
 	public float cellSize;
@@ -14,16 +13,32 @@ public class GridManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-		objectTransform = GetComponent<Transform>();
-		grid = new Grid<int>(width, height, cellSize, objectTransform.position);
+        pathfinding = new Pathfinding(10, 10, GetComponent<Transform>().position);
     }
 
     // Update is called once per frame
     void Update()
     {
-		if(Input.GetMouseButtonDown(0))
-			grid.SetValue(UtilsClass.GetMouseWorldPosition(), 10);
-		else if(Input.GetMouseButtonDown(1))
-			Debug.Log(grid.GetValue(UtilsClass.GetMouseWorldPosition()));
+        if (Input.GetMouseButtonDown(0))
+        {
+            Vector3 mouseWPos = UtilsClass.GetMouseWorldPosition();
+            Vector2Int gridPos = pathfinding.GetGrid().GetLocalPosition(mouseWPos);
+            Debug.Log(gridPos);
+            List<PathNode> path = pathfinding.FindPath_AStar(0, 0, gridPos.x, gridPos.y);
+            Debug.Log(path);
+            if(path != null)
+            {
+                for(int i = 0; i < path.Count - 1; ++i)
+                {
+                    Debug.DrawLine(new Vector3(path[i].x, path[i].y) * 10f + Vector3.one * 5f, new Vector3(path[i + 1].x, path[i + 1].y));
+                }
+            }
+
+
+        }
+
+
+
+
     }
 }
