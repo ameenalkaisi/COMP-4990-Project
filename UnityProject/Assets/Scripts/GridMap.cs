@@ -111,7 +111,12 @@ public class GridMap<T>
         else return new Vector2Int(0, 0); // temporary should probably throw exception or something
     }
 
-    private Vector3 GetWorlPosition(int x, int y)
+    public float GetCellSize()
+    {
+        return cellSize;
+    }
+
+    public Vector3 GetWorlPosition(int x, int y)
     {
         return new Vector3(x, y) * cellSize + originPosition;
     }

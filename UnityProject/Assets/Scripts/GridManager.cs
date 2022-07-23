@@ -13,7 +13,7 @@ public class GridManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        pathfinding = new Pathfinding(10, 10, GetComponent<Transform>().position);
+        pathfinding = new Pathfinding(10, 10, GetComponent<Transform>().position, 1.3f);
     }
 
     // Update is called once per frame
@@ -34,9 +34,15 @@ public class GridManager : MonoBehaviour
             }*/
             if(path != null)
             {
+                Color lineColor = new Color(Random.Range(0, 100) / 100f, Random.Range(0, 100) / 100f, Random.Range(0, 100) / 100f);
+                float cellSize = pathfinding.GetGrid().GetCellSize();
+
+                // get a random color only for this path, so that differentiating betweeen other paths is easier
                 for(int i = 0; i < path.Count - 1; ++i)
                 {
-                    Debug.DrawLine(new Vector3(path[i].x, path[i].y) * 3f + Vector3.one * 1.5f, new Vector3(path[i + 1].x, path[i + 1].y), Color.white, 100f);
+                    Vector3 firstPosition = pathfinding.GetGrid().GetWorlPosition(path[i].x, path[i].y);
+                    Vector3 secondPosition = pathfinding.GetGrid().GetWorlPosition(path[i + 1].x, path[i + 1].y);
+                    Debug.DrawLine(firstPosition + Vector3.one * cellSize / 2f, secondPosition + Vector3.one * cellSize / 2f, lineColor, 100f);
                 }
             }
 
