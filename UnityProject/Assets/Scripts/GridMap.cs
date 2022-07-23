@@ -81,7 +81,7 @@ public class GridMap<T>
 	// will throw exception if out of bounds
     public T GetValue(int x, int y)
     {
-		return gridArray[x, y];
+        return gridArray[x, y];
     }
 
     public T GetValue(Vector3 worldPosition)
@@ -106,7 +106,7 @@ public class GridMap<T>
         result.x = Mathf.FloorToInt((worldPosition - originPosition).x / cellSize);
         result.y = Mathf.FloorToInt((worldPosition - originPosition).y / cellSize);
 
-        if (result.x >= 0 && result.y >= 0 && result.x <= width && result.y <= height)
+        if (result.x >= 0 && result.y >= 0 && result.x < width && result.y < height)
             return result;
         else return new Vector2Int(0, 0); // temporary should probably throw exception or something
     }

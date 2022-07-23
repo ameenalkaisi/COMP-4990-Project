@@ -79,10 +79,10 @@ public class Pathfinding
         List<PathNode> neighbourList = new List<PathNode>();
         for(int i = -1; i <= 1; i += 2)
         {
-            if (currentNode.x + i >= 0 && currentNode.x + i <= grid.GetWidth())
+            if (currentNode.x + i >= 0 && currentNode.x + i < grid.GetWidth())
                 neighbourList.Add(grid.GetValue(currentNode.x + i, currentNode.y));
 
-            if (currentNode.y + i >= 0 && currentNode.y + i <= grid.GetHeight())
+            if (currentNode.y + i >= 0 && currentNode.y + i < grid.GetHeight())
                 neighbourList.Add(grid.GetValue(currentNode.x, currentNode.y + i));
         }
 

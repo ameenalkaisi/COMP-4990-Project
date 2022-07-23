@@ -13,7 +13,7 @@ public class GridManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        pathfinding = new Pathfinding(10, 10, GetComponent<Transform>().position, 1.3f);
+        pathfinding = new Pathfinding(10, 10, GetComponent<Transform>().position, cellSize);
     }
 
     // Update is called once per frame
@@ -35,7 +35,6 @@ public class GridManager : MonoBehaviour
             if(path != null)
             {
                 Color lineColor = new Color(Random.Range(0, 100) / 100f, Random.Range(0, 100) / 100f, Random.Range(0, 100) / 100f);
-                float cellSize = pathfinding.GetGrid().GetCellSize();
 
                 // get a random color only for this path, so that differentiating betweeen other paths is easier
                 for(int i = 0; i < path.Count - 1; ++i)
