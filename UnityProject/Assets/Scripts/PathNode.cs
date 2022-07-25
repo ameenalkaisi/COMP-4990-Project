@@ -7,6 +7,7 @@ public class PathNode
     private GridMap<PathNode> grid;
     public int x, y;
     public int gCost, hCost, fCost;
+    public bool isWalkable;
 
     public PathNode cameFromNode;
 
@@ -15,6 +16,8 @@ public class PathNode
         this.grid = grid;
         this.x = x;
         this.y = y;
+
+        isWalkable = true;
     }
 
     public void CalculateFCost()
@@ -24,6 +27,6 @@ public class PathNode
 
     public override string ToString()
     {
-        return x + "," + y;
+        return x + "," + y + (isWalkable ? "" : "\nX");
     }
 }

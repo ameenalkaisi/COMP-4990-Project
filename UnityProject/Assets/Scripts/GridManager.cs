@@ -48,6 +48,14 @@ public class GridManager : MonoBehaviour
 
         }
 
+        if(Input.GetMouseButtonDown(1))
+        {
+            Vector3 mouseWPos = UtilsClass.GetMouseWorldPosition();
+            PathNode focusedNode = pathfinding.GetGrid().GetValue(mouseWPos);
+            focusedNode.isWalkable = !focusedNode.isWalkable;
+            pathfinding.GetGrid().DrawDebug();
+        }
+
 
 
 

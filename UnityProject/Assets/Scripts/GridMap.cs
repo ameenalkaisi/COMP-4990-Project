@@ -18,8 +18,6 @@ public class GridMap<T>
 
     public bool showDebug = true;
 
-    // creates the grid and draws it
-    // createGridObject is the function that will create an object at grid's x, y position
     public GridMap(int width, int height, float cellSize, Vector3 originPosition, Func<GridMap<T>, int, int, T> createGridObject)
     {
         this.width = width;
@@ -36,6 +34,13 @@ public class GridMap<T>
                 gridArray[x, y] = createGridObject(this, x, y);
             }
         }
+
+        // output X under it if it is not a walkable cell
+        DrawDebug();
+    }
+
+    public void DrawDebug()
+    {
         if(showDebug)
         {
             debugTextArray = new TextMesh[width, height];
