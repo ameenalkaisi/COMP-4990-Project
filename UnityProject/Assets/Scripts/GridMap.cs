@@ -18,6 +18,13 @@ public class GridMap<T>
 
     public bool showDebug = true;
 
+    public event EventHandler<OnGridValueChangedEventArgs> OnGridValueChanged;
+    public class OnGridValueChangedEventArgs : EventArgs
+    {
+        public int x;
+        public int y;
+    }
+
     public GridMap(int width, int height, float cellSize, Vector3 originPosition, Func<GridMap<T>, int, int, T> createGridObject)
     {
         this.width = width;
@@ -39,31 +46,41 @@ public class GridMap<T>
         DrawDebug();
     }
 
+    public void TriggerGridObjectChanged(int x, int y)
+    {
+        OnGridValueChanged?.Invoke(this, new OnGridValueChangedEventArgs { x = x, y = y });
+    }
+
     public void DrawDebug()
     {
-        if(showDebug)
+        if (!showDebug)
+            return;
+
+        debugTextArray = new TextMesh[width, height];
+
+        for (int x = 0; x < gridArray.GetLength(0); ++x)
         {
-            debugTextArray = new TextMesh[width, height];
-
-            for (int x = 0; x < gridArray.GetLength(0); ++x)
+            for (int y = 0; y < gridArray.GetLength(1); ++y)
             {
-                for (int y = 0; y < gridArray.GetLength(1); ++y)
-                {
-                    // attaches a piece of text to each cell
-                    debugTextArray[x, y] = UtilsClass.CreateWorldText(gridArray[x, y].ToString(),
-                            null,
-                            GetWorlPosition(x, y) + new Vector3(cellSize, cellSize) * 0.5f,
-                            10, Color.white, TextAnchor.MiddleCenter);
+                // attaches a piece of text to each cell
+                debugTextArray[x, y] = UtilsClass.CreateWorldText(gridArray[x, y].ToString(),
+                        null,
+                        GetWorldPosition(x, y) + new Vector3(cellSize, cellSize) * 0.5f,
+                        10, Color.white, TextAnchor.MiddleCenter);
 
-                    // these draw the borders
-                    // not permanent however
-                    Debug.DrawLine(GetWorlPosition(x, y), GetWorlPosition(x, y + 1), Color.white, 100f);
-                    Debug.DrawLine(GetWorlPosition(x, y), GetWorlPosition(x + 1, y), Color.white, 100f);
-                }
-                // draw borders at the end to reduce drawing a line twice on edges
-                Debug.DrawLine(GetWorlPosition(0, height), GetWorlPosition(width, height), Color.white, 100f);
-                Debug.DrawLine(GetWorlPosition(width, 0), GetWorlPosition(width, height), Color.white, 100f);
+                // these draw the borders
+                // not permanent however
+                Debug.DrawLine(GetWorldPosition(x, y), GetWorldPosition(x, y + 1), Color.white, 100f);
+                Debug.DrawLine(GetWorldPosition(x, y), GetWorldPosition(x + 1, y), Color.white, 100f);
+
+                OnGridValueChanged += (object sender, OnGridValueChangedEventArgs eventArgs) =>
+                {
+                    debugTextArray[eventArgs.x, eventArgs.y].text = gridArray[eventArgs.x, eventArgs.y].ToString();
+                };
             }
+            // draw borders at the end to reduce drawing a line twice on edges
+            Debug.DrawLine(GetWorldPosition(0, height), GetWorldPosition(width, height), Color.white, 100f);
+            Debug.DrawLine(GetWorldPosition(width, 0), GetWorldPosition(width, height), Color.white, 100f);
         }
     }
 
@@ -73,6 +90,8 @@ public class GridMap<T>
         {
             gridArray[x, y] = value;
             debugTextArray[x, y].text = gridArray[x, y].ToString();
+
+            TriggerGridObjectChanged(x, y);
         }
     }
 
@@ -121,7 +140,7 @@ public class GridMap<T>
         return cellSize;
     }
 
-    public Vector3 GetWorlPosition(int x, int y)
+    public Vector3 GetWorldPosition(int x, int y)
     {
         return new Vector3(x, y) * cellSize + originPosition;
     }

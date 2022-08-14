@@ -176,7 +176,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 10
+  orthographic size: 15
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -207,13 +207,37 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1001 &4257458378313502181
+--- !u!1001 &1423980897
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1395697431470716420, guid: f7cb15eaa59d3934992b9388be3d3591, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2021251316475963509, guid: f7cb15eaa59d3934992b9388be3d3591, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2565987835535822984, guid: f7cb15eaa59d3934992b9388be3d3591, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3476831791256920950, guid: f7cb15eaa59d3934992b9388be3d3591, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 5814689700101018355, guid: f7cb15eaa59d3934992b9388be3d3591, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6909510632220871810, guid: f7cb15eaa59d3934992b9388be3d3591, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 7026068119963054226, guid: f7cb15eaa59d3934992b9388be3d3591, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -224,7 +248,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7026068119963054226, guid: f7cb15eaa59d3934992b9388be3d3591, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -5
+      value: -6
       objectReference: {fileID: 0}
     - target: {fileID: 7026068119963054226, guid: f7cb15eaa59d3934992b9388be3d3591, type: 3}
       propertyPath: m_LocalPosition.z
@@ -263,16 +287,17 @@ PrefabInstance:
       value: GridTest
       objectReference: {fileID: 0}
     - target: {fileID: 7469364339840182893, guid: f7cb15eaa59d3934992b9388be3d3591, type: 3}
-      propertyPath: width
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 7469364339840182893, guid: f7cb15eaa59d3934992b9388be3d3591, type: 3}
-      propertyPath: height
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 7469364339840182893, guid: f7cb15eaa59d3934992b9388be3d3591, type: 3}
       propertyPath: cellSize
       value: 2
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 7469364339840182893, guid: f7cb15eaa59d3934992b9388be3d3591, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9006407826760047088, guid: f7cb15eaa59d3934992b9388be3d3591, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 2565987835535822984, guid: f7cb15eaa59d3934992b9388be3d3591, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: f7cb15eaa59d3934992b9388be3d3591, type: 3}

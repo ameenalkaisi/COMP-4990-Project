@@ -5,15 +5,24 @@ using CodeMonkey.Utils;
 
 public class GridManager : MonoBehaviour
 {
-    private Pathfinding pathfinding;
+    public PathfindingVisual pathfindingVisual;
+    //public PathfindingDebugStepVisual pathfindingDebugVisual;
 
 	public int width, height;
 	public float cellSize;
+    public bool drawDebug = true;
+
+    private Pathfinding pathfinding;
 
     // Start is called before the first frame update
     void Start()
     {
-        pathfinding = new Pathfinding(10, 10, GetComponent<Transform>().position, cellSize);
+        pathfinding = new Pathfinding(10, 10, transform.position, cellSize);
+        pathfinding.GetGrid().showDebug = drawDebug;
+
+        pathfindingVisual.SetGridMap(pathfinding.GetGrid());
+
+        //pathfindingDebugVisual.Setup(pathfinding.GetGrid());
     }
 
     // Update is called once per frame
@@ -39,8 +48,8 @@ public class GridManager : MonoBehaviour
                 // get a random color only for this path, so that differentiating betweeen other paths is easier
                 for(int i = 0; i < path.Count - 1; ++i)
                 {
-                    Vector3 firstPosition = pathfinding.GetGrid().GetWorlPosition(path[i].x, path[i].y);
-                    Vector3 secondPosition = pathfinding.GetGrid().GetWorlPosition(path[i + 1].x, path[i + 1].y);
+                    Vector3 firstPosition = pathfinding.GetGrid().GetWorldPosition(path[i].x, path[i].y);
+                    Vector3 secondPosition = pathfinding.GetGrid().GetWorldPosition(path[i + 1].x, path[i + 1].y);
                     Debug.DrawLine(firstPosition + Vector3.one * cellSize / 2f, secondPosition + Vector3.one * cellSize / 2f, lineColor, 100f);
                 }
             }
@@ -52,8 +61,8 @@ public class GridManager : MonoBehaviour
         {
             Vector3 mouseWPos = UtilsClass.GetMouseWorldPosition();
             PathNode focusedNode = pathfinding.GetGrid().GetValue(mouseWPos);
-            focusedNode.isWalkable = !focusedNode.isWalkable;
-            pathfinding.GetGrid().DrawDebug();
+            focusedNode.SetIsWalkable(!focusedNode.isWalkable);
+            //pathfinding.GetGrid().DrawDebug();
         }
 
 

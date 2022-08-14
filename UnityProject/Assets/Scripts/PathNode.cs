@@ -25,6 +25,13 @@ public class PathNode
         fCost = gCost + hCost;
     }
 
+    public void SetIsWalkable(bool isWalkable)
+    {
+        this.isWalkable = isWalkable;
+
+        grid.TriggerGridObjectChanged(x, y);
+    }
+
     public override string ToString()
     {
         return x + "," + y + (isWalkable ? "" : "\nX");
