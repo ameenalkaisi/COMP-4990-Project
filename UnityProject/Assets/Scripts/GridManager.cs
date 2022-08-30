@@ -6,11 +6,10 @@ using CodeMonkey.Utils;
 public class GridManager : MonoBehaviour
 {
     public PathfindingVisual pathfindingVisual;
-    //public PathfindingDebugStepVisual pathfindingDebugVisual;
+    public PathfindingDebugStepVisual pathfindingDebugVisual;
 
 	public int width, height;
 	public float cellSize;
-    public bool drawDebug = true;
 
     private Pathfinding pathfinding;
 
@@ -18,11 +17,10 @@ public class GridManager : MonoBehaviour
     void Start()
     {
         pathfinding = new Pathfinding(10, 10, transform.position, cellSize);
-        pathfinding.GetGrid().showDebug = drawDebug;
 
+        pathfindingDebugVisual.Setup(pathfinding.GetGrid());
         pathfindingVisual.SetGridMap(pathfinding.GetGrid());
 
-        //pathfindingDebugVisual.Setup(pathfinding.GetGrid());
     }
 
     // Update is called once per frame
@@ -63,6 +61,9 @@ public class GridManager : MonoBehaviour
             PathNode focusedNode = pathfinding.GetGrid().GetValue(mouseWPos);
             focusedNode.SetIsWalkable(!focusedNode.isWalkable);
             //pathfinding.GetGrid().DrawDebug();
+
+            // perhaps in here, set pathfindingVisual's properties
+            // let pathfindingVisual do all the mesh related work
         }
 
 

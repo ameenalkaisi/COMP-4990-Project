@@ -26,7 +26,9 @@ public class PathfindingDebugStepVisual : MonoBehaviour {
     private List<GridSnapshotAction> gridSnapshotActionList;
     private bool autoShowSnapshots;
     private float autoShowSnapshotsTimer;
-    private Transform[,] visualNodeArray; 
+    private Transform[,] visualNodeArray;
+
+    private Vector3 gridPos;
 
     private void Awake() {
         Instance = this;
@@ -36,10 +38,11 @@ public class PathfindingDebugStepVisual : MonoBehaviour {
 
     public void Setup(GridMap<PathNode> grid) {
         visualNodeArray = new Transform[grid.GetWidth(), grid.GetHeight()];
+        gridPos = grid.GetWorldPosition(0, 0);
 
         for (int x = 0; x < grid.GetWidth(); x++) {
             for (int y = 0; y < grid.GetHeight(); y++) {
-                Vector3 gridPosition = new Vector3(x, y) * grid.GetCellSize() + Vector3.one * grid.GetCellSize() * .5f;
+                Vector3 gridPosition = new Vector3(x + .5f, y + .5f) * grid.GetCellSize() + gridPos;
                 Transform visualNode = CreateVisualNode(gridPosition);
                 visualNodeArray[x, y] = visualNode;
                 visualNodeList.Add(visualNode);
@@ -93,7 +96,7 @@ public class PathfindingDebugStepVisual : MonoBehaviour {
                 int gCost = pathNode.gCost;
                 int hCost = pathNode.hCost;
                 int fCost = pathNode.fCost;
-                Vector3 gridPosition = new Vector3(pathNode.x, pathNode.y) * grid.GetCellSize() + Vector3.one * grid.GetCellSize() * .5f;
+                //Vector3 gridPosition = new Vector3(pathNode.x + .5f, pathNode.y + .5f) * grid.GetCellSize()
                 bool isCurrent = pathNode == current;
                 bool isInOpenList = openList.Contains(pathNode);
                 bool isInClosedList = closedList.Contains(pathNode);
@@ -135,7 +138,7 @@ public class PathfindingDebugStepVisual : MonoBehaviour {
                 int gCost = pathNode.gCost;
                 int hCost = pathNode.hCost;
                 int fCost = pathNode.fCost;
-                Vector3 gridPosition = new Vector3(pathNode.x, pathNode.y) * grid.GetCellSize() + Vector3.one * grid.GetCellSize() * .5f;
+                //Vector3 gridPosition = new Vector3(pathNode.x, pathNode.y) * grid.GetCellSize();
                 bool isInPath = path.Contains(pathNode);
                 int tmpX = x;
                 int tmpY = y;

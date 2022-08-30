@@ -17,6 +17,7 @@ public class GridMap<T>
     private TextMesh[,] debugTextArray;
 
     public bool showDebug = true;
+    public int fontSize = 36;
 
     public event EventHandler<OnGridValueChangedEventArgs> OnGridValueChanged;
     public class OnGridValueChangedEventArgs : EventArgs
@@ -66,7 +67,7 @@ public class GridMap<T>
                 debugTextArray[x, y] = UtilsClass.CreateWorldText(gridArray[x, y].ToString(),
                         null,
                         GetWorldPosition(x, y) + new Vector3(cellSize, cellSize) * 0.5f,
-                        10, Color.white, TextAnchor.MiddleCenter);
+                        fontSize, Color.white, TextAnchor.MiddleCenter);
 
                 // these draw the borders
                 // not permanent however
