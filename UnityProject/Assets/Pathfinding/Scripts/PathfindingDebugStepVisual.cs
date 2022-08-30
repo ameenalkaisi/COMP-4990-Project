@@ -149,11 +149,10 @@ public class PathfindingDebugStepVisual : MonoBehaviour {
 
                     Color backgroundColor;
 
-                    if (isInPath) {
+                    if (isInPath)
                         backgroundColor = new Color(0, 1, 0);
-                    } else {
+                    else
                         backgroundColor = UtilsClass.GetColorFromString("636363");
-                    }
 
                     visualNode.Find("sprite").GetComponent<SpriteRenderer>().color = backgroundColor;
                 });
@@ -175,7 +174,7 @@ public class PathfindingDebugStepVisual : MonoBehaviour {
     }
 
     private void SetupVisualNode(Transform visualNodeTransform, int gCost, int hCost, int fCost) {
-        if (fCost < 1000) {
+        if (Math.Abs(fCost) < 1000) {
             visualNodeTransform.Find("gCostText").GetComponent<TextMeshPro>().SetText(gCost.ToString());
             visualNodeTransform.Find("hCostText").GetComponent<TextMeshPro>().SetText(hCost.ToString());
             visualNodeTransform.Find("fCostText").GetComponent<TextMeshPro>().SetText(fCost.ToString());

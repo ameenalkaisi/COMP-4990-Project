@@ -16,7 +16,7 @@ public class GridManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        pathfinding = new Pathfinding(10, 10, transform.position, cellSize);
+        pathfinding = new Pathfinding(width, height, transform.position, cellSize);
 
         pathfindingDebugVisual.Setup(pathfinding.GetGrid());
         pathfindingVisual.SetGridMap(pathfinding.GetGrid());
@@ -39,7 +39,7 @@ public class GridManager : MonoBehaviour
             {
                 Debug.Log(node);
             }*/
-            if(path != null)
+            /* if(path != null)
             {
                 Color lineColor = new Color(Random.Range(0, 100) / 100f, Random.Range(0, 100) / 100f, Random.Range(0, 100) / 100f);
 
@@ -50,8 +50,9 @@ public class GridManager : MonoBehaviour
                     Vector3 secondPosition = pathfinding.GetGrid().GetWorldPosition(path[i + 1].x, path[i + 1].y);
                     Debug.DrawLine(firstPosition + Vector3.one * cellSize / 2f, secondPosition + Vector3.one * cellSize / 2f, lineColor, 100f);
                 }
-            }
+            } */
 
+            pathfindingDebugVisual.TakeSnapshotFinalPath(pathfinding.GetGrid(), path);
 
         }
 

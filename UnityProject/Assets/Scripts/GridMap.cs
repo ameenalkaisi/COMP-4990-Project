@@ -16,7 +16,7 @@ public class GridMap<T>
 
     private TextMesh[,] debugTextArray;
 
-    public bool showDebug = true;
+    public bool showDebug = false;
     public int fontSize = 36;
 
     public event EventHandler<OnGridValueChangedEventArgs> OnGridValueChanged;
