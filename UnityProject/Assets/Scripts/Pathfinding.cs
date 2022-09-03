@@ -79,6 +79,72 @@ public class Pathfinding
         return null;
     }
 
+    public List<PathNode> FindPathWithSnapshots_AStar(int startX, int startY, int endX, int endY, PathfindingDebugStepVisual pathNodeStepVisual)
+    {
+        PathNode startNode = grid.GetValue(startX, startY);
+        PathNode endNode = grid.GetValue(endX, endY);
+
+        openList = new List<PathNode>() { startNode };
+        closedList = new List<PathNode>();
+    
+        // set up g and f values
+        for(int x = 0; x < grid.GetWidth(); x++)
+        {
+            for(int y = 0; y < grid.GetHeight(); y++)
+            {
+                PathNode pathNode = grid.GetValue(x, y);
+                pathNode.gCost = int.MaxValue;
+                pathNode.CalculateFCost();
+                pathNode.cameFromNode = null;
+            }
+        }
+
+        startNode.gCost = 0;
+        startNode.hCost = CalculateDistanceCost(startNode, endNode);
+        startNode.CalculateFCost();
+
+        while(openList.Count > 0)
+        {
+            PathNode currentNode = GetLowestFCostNode(openList);
+            if (currentNode == endNode)
+            {
+                List<PathNode> finalPath = CalculatePath(endNode);
+                pathNodeStepVisual.TakeSnapshotFinalPath(grid, finalPath);
+
+                return CalculatePath(endNode);
+            }
+
+            openList.Remove(currentNode);
+            closedList.Add(currentNode);
+
+            pathNodeStepVisual.TakeSnapshot(grid, currentNode, openList, closedList);
+
+            foreach(PathNode neighbourNode in GetNeighbourList(currentNode)) {
+                if (closedList.Contains(neighbourNode)) continue;
+                if(!neighbourNode.isWalkable)
+                {
+                    closedList.Add(neighbourNode);
+                    continue;
+                }
+
+                int tentativeGCost = currentNode.gCost + CalculateDistanceCost(currentNode, neighbourNode);
+                if(tentativeGCost < neighbourNode.gCost)
+                {
+                    neighbourNode.cameFromNode = currentNode;
+                    neighbourNode.gCost = tentativeGCost;
+                    neighbourNode.hCost = CalculateDistanceCost(neighbourNode, endNode);
+                    neighbourNode.CalculateFCost();
+
+                    if (!openList.Contains(neighbourNode))
+                        openList.Add(neighbourNode);
+                }
+            }
+        }
+
+        // out of nodes on open list, no path exists
+        return null;
+    }
+
     private List<PathNode> GetNeighbourList(PathNode currentNode)
     {
         List<PathNode> neighbourList = new List<PathNode>();

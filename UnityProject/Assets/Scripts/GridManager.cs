@@ -32,7 +32,7 @@ public class GridManager : MonoBehaviour
             Vector2Int gridPos = pathfinding.GetGrid().GetLocalPosition(mouseWPos);
             //Debug.Log(gridPos);
             
-            List<PathNode> path = pathfinding.FindPath_AStar(0, 0, gridPos.x, gridPos.y);
+            List<PathNode> path = pathfinding.FindPathWithSnapshots_AStar(0, 0, gridPos.x, gridPos.y, pathfindingDebugVisual);
             
             /*Debug.Log(path.Count);
             foreach(PathNode node in path)
@@ -51,8 +51,6 @@ public class GridManager : MonoBehaviour
                     Debug.DrawLine(firstPosition + Vector3.one * cellSize / 2f, secondPosition + Vector3.one * cellSize / 2f, lineColor, 100f);
                 }
             } */
-
-            pathfindingDebugVisual.TakeSnapshotFinalPath(pathfinding.GetGrid(), path);
 
         }
 
