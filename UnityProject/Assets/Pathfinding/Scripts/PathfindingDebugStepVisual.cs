@@ -24,7 +24,7 @@ public class PathfindingDebugStepVisual : MonoBehaviour {
     [SerializeField] private Transform pfPathfindingDebugStepVisualNode;
     private List<Transform> visualNodeList;
     private List<GridSnapshotAction> gridSnapshotActionList;
-    private bool autoShowSnapshots;
+    public bool autoShowSnapshots;
     private float autoShowSnapshotsTimer;
     private Transform[,] visualNodeArray;
 
