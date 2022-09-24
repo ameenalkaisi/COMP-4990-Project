@@ -141,6 +141,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pfPathfindingDebugStepVisualNode: {fileID: 6536783764682816104, guid: 137cc74e80adc6648a54b841982d1a8e, type: 3}
+  autoShowSnapshots: 0
 --- !u!1 &7469036718130262194
 GameObject:
   m_ObjectHideFlags: 0
@@ -192,3 +193,4 @@ MonoBehaviour:
   width: 10
   height: 10
   cellSize: 5
+  numberOfBlockedElements: 5

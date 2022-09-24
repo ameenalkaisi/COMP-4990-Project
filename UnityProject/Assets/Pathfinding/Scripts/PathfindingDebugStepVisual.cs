@@ -20,11 +20,11 @@ using CodeMonkey.Utils;
 public class PathfindingDebugStepVisual : MonoBehaviour {
 
     public static PathfindingDebugStepVisual Instance { get; private set; }
+    [NonSerialized] public bool autoShowSnapshots;
 
     [SerializeField] private Transform pfPathfindingDebugStepVisualNode;
     private List<Transform> visualNodeList;
     private List<GridSnapshotAction> gridSnapshotActionList;
-    public bool autoShowSnapshots;
     private float autoShowSnapshotsTimer;
     private Transform[,] visualNodeArray;
 
