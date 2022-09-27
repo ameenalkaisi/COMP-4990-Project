@@ -15,7 +15,7 @@ public class TimeUsage : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        currentTime = 0;
+        currentTime = 0f;
     }
 
     // Update is called once per frame
@@ -25,7 +25,11 @@ public class TimeUsage : MonoBehaviour
         {
             currentTime = currentTime + Time.deltaTime;
         }
-            TimeSpan time = TimeSpan.FromSeconds(currentTime);
-            currentTimeText.text = time.Seconds.ToString() + "." + time.Milliseconds.ToString() + " seconds";
+
+        TimeSpan time = TimeSpan.FromSeconds(currentTime);
+        currentTimeText.text = time.Seconds.ToString() + "." + time.Milliseconds.ToString() + " seconds";
+
+        if (Input.GetKeyDown(KeyCode.Return))
+            currentTime = 0f;
     }
 }
