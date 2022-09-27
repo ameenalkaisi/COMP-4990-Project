@@ -29,7 +29,7 @@ public class Testing : MonoBehaviour {
     }
 
     private void Update() {
-        if (Input.GetMouseButtonDown(0)) {
+        /*if (Input.GetMouseButtonDown(0)) {
             Vector3 mouseWorldPosition = UtilsClass.GetMouseWorldPosition();
             Vector2Int localPos = pathfinding.GetGrid().GetLocalPosition(mouseWorldPosition);
             int x = localPos.x;
@@ -46,7 +46,7 @@ public class Testing : MonoBehaviour {
             Vector3 mouseWorldPosition = UtilsClass.GetMouseWorldPosition();
             Vector2Int localPos = pathfinding.GetGrid().GetLocalPosition(mouseWorldPosition);
             pathfinding.GetGrid().GetValue(localPos.x, localPos.y).SetIsWalkable(!pathfinding.GetGrid().GetValue(localPos.x, localPos.y).isWalkable);
-        }
+        }*/
     }
 
 }

@@ -98,9 +98,10 @@ public class GridMap<T>
 
     public void SetValue(Vector3 worldPosition, T value)
     {
-        Vector2Int convertedPos = GetLocalPosition(worldPosition);
+        Vector2Int? convertedPos = GetLocalPosition(worldPosition);
 
-        SetValue(convertedPos.x, convertedPos.y, value);
+        if(convertedPos.HasValue)
+            SetValue(convertedPos.Value.x, convertedPos.Value.y, value);
     }
 
 	// will throw exception if out of bounds
@@ -111,8 +112,10 @@ public class GridMap<T>
 
     public T GetValue(Vector3 worldPosition)
     {
-        Vector2Int convertedPos = GetLocalPosition(worldPosition);
-        return GetValue(convertedPos.x, convertedPos.y);
+        Vector2Int? convertedPos = GetLocalPosition(worldPosition);
+        if (convertedPos.HasValue)
+            return GetValue(convertedPos.Value.x, convertedPos.Value.y);
+        else return default(T);
     }
 
     public int GetWidth()
@@ -125,7 +128,9 @@ public class GridMap<T>
         return height;
     }
 
-    public Vector2Int GetLocalPosition(Vector3 worldPosition)
+    // returns x, y position in the graph from the world position otherwise null if
+    // world position doesn't point anywhere in the graph
+    public Vector2Int? GetLocalPosition(Vector3 worldPosition)
     {
         Vector2Int result = new Vector2Int();
         result.x = Mathf.FloorToInt((worldPosition - originPosition).x / cellSize);
@@ -133,7 +138,7 @@ public class GridMap<T>
 
         if (result.x >= 0 && result.y >= 0 && result.x < width && result.y < height)
             return result;
-        else return new Vector2Int(0, 0); // temporary should probably throw exception or something
+        else return null;
     }
 
     public float GetCellSize()

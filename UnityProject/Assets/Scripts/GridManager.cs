@@ -39,11 +39,13 @@ public class GridManager : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             Vector3 mouseWPos = UtilsClass.GetMouseWorldPosition();
-            Vector2Int gridPos = pathfinding.GetGrid().GetLocalPosition(mouseWPos);
+            Vector2Int? gridPos = pathfinding.GetGrid().GetLocalPosition(mouseWPos);
             //Debug.Log(gridPos);
 
-            pathfindingDebugVisual.ClearSnapshots();            
-            List<PathNode> path = pathfinding.FindPathWithSnapshots_AStar(0, 0, gridPos.x, gridPos.y, pathfindingDebugVisual);
+            pathfindingDebugVisual.ClearSnapshots();
+            List<PathNode> path;
+            if(gridPos.HasValue)
+                path = pathfinding.FindPathWithSnapshots_AStar(0, 0, gridPos.Value.x, gridPos.Value.y, pathfindingDebugVisual);
             
             /*Debug.Log(path.Count);
             foreach(PathNode node in path)
@@ -69,7 +71,10 @@ public class GridManager : MonoBehaviour
         {
             Vector3 mouseWPos = UtilsClass.GetMouseWorldPosition();
             PathNode focusedNode = pathfinding.GetGrid().GetValue(mouseWPos);
-            focusedNode.SetIsWalkable(!focusedNode.isWalkable);
+
+            // if it is a valid node and not default constructed node, set is walkable
+            if(focusedNode != null)
+                focusedNode.SetIsWalkable(!focusedNode.isWalkable);
             //pathfinding.GetGrid().DrawDebug();
 
             // perhaps in here, set pathfindingVisual's properties
@@ -118,7 +123,6 @@ public class GridManager : MonoBehaviour
                 } while (!remainingElements.Contains(pickedPair) || remainingElements.Count == 0);
 
                 grid.GetValue(pickedI, pickedJ).SetIsWalkable(false);
-                Debug.Log(pickedI + ", " + pickedJ + " were set as non-walkable");
                 remainingElements.Remove(pickedPair);
             }
         }
