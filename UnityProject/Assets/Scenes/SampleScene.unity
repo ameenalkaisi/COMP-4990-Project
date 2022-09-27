@@ -145,6 +145,7 @@ GameObject:
   - component: {fileID: 792602927}
   - component: {fileID: 792602926}
   - component: {fileID: 792602925}
+  - component: {fileID: 792602928}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -174,7 +175,7 @@ Camera:
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
-  m_SensorSize: {x: 36, y: 24}
+  m_SensorSize: {x: 36.75, y: 41.7}
   m_LensShift: {x: 0, y: 0}
   m_FocalLength: 50
   m_NormalizedViewPortRect:
@@ -218,6 +219,22 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &792602928
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 792602924}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 963e6e67528b310438d19a0ee966c560, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  slowMove: 50
+  normalMove: 100
+  fastMove: 250
+  scrollSpeed: 10
 --- !u!1 &996858424
 GameObject:
   m_ObjectHideFlags: 0
