@@ -5,6 +5,7 @@ using CodeMonkey.Utils;
 using System;
 using System.Linq;
 using Unity.VisualScripting;
+using JetBrains.Annotations;
 
 public class GridManager : MonoBehaviour
 {
@@ -14,7 +15,10 @@ public class GridManager : MonoBehaviour
 	public int width, height;
 	public float cellSize;
 
-    public int numberOfBlockedElements;
+    public float obstacleDensity;
+    public double minObstacleDistribution, maxObstacleDistribution;
+
+    public int maxTriesForRandomness = 1000;
 
     private Pathfinding pathfinding;
     private System.Random random;
@@ -29,8 +33,7 @@ public class GridManager : MonoBehaviour
         pathfindingDebugVisual.Setup(pathfinding.GetGrid());
         pathfindingVisual.SetGridMap(pathfinding.GetGrid());
 
-
-        RandomizeBlockedElements(numberOfBlockedElements);
+        RandomizeBlockedElements(obstacleDensity, minObstacleDistribution, maxObstacleDistribution);
     }
 
     // Update is called once per frame
@@ -88,8 +91,7 @@ public class GridManager : MonoBehaviour
 
         if(Input.GetKeyDown(KeyCode.T))
         {
-            ResetCells();
-            RandomizeBlockedElements(numberOfBlockedElements);
+            RandomizeBlockedElements(obstacleDensity, minObstacleDistribution, maxObstacleDistribution);
         }
 
 
@@ -97,24 +99,31 @@ public class GridManager : MonoBehaviour
 
     // randomize blocked elements on the start, set averageDensity to a positive value to force algorithm to 
     // have different densities
-    void RandomizeBlockedElements(int maxBlockedElements, float averageDensity = -1f)
+    void RandomizeBlockedElements(float obstacleDensity, double minObstacleDistribution = 0f, double maxObstacleDistribution = Double.MaxValue)
     {
         List<Tuple<int, int>> remainingElements = new List<Tuple<int, int>>();
         GridMap<PathNode> grid = pathfinding.GetGrid();
-        for (int i = 0; i < grid.GetWidth(); ++i)
-            for (int j = 0; j < grid.GetHeight(); ++j)
-                if(i != 0 || j != 0)
-                    remainingElements.Add(new Tuple<int, int>(i, j));
-        // remove (0, 0) from being picked
 
-        if (averageDensity <= 0.0f)
+        int maxTries = maxTriesForRandomness;
+        double calculatedObstacleDistribution;
+        do
         {
+            remainingElements.Clear();
+            ResetCells();
+            // remove (0, 0) from being picked
+            for (int i = 0; i < grid.GetWidth(); ++i)
+                for (int j = 0; j < grid.GetHeight(); ++j)
+                    if (i != 0 || j != 0)
+                        remainingElements.Add(new Tuple<int, int>(i, j));
+
             // keep picking 2 elements until one of them is found not to be already picked
             // do this until specified maximum number of blocked elements
-            for (int i = 0; i < maxBlockedElements; ++i) {
+            int blockedElementsCount = (int)Math.Floor(obstacleDensity * grid.GetWidth() * grid.GetHeight());
+            for (int i = 0; i < blockedElementsCount; ++i)
+            {
                 int pickedI, pickedJ;
                 Tuple<int, int> pickedPair;
-                
+
                 do
                 {
                     pickedI = random.Next(0, grid.GetWidth());
@@ -125,10 +134,50 @@ public class GridManager : MonoBehaviour
                 grid.GetValue(pickedI, pickedJ).SetIsWalkable(false);
                 remainingElements.Remove(pickedPair);
             }
+
+            // calculate threshold
+            calculatedObstacleDistribution = CalculateObstacleDistribution();
+        } while ((minObstacleDistribution > calculatedObstacleDistribution || calculatedObstacleDistribution > maxObstacleDistribution) && --maxTries > 0); // do until it meets the obstacel distribution threshold
+
+        Debug.Log(calculatedObstacleDistribution);
+    }
+
+    public List<PathNode> GetObstacleList()
+    {
+        List<PathNode> obstacleList = new List<PathNode>();
+
+        GridMap<PathNode> grid = pathfinding.GetGrid();
+        for (int i = 0; i < grid.GetWidth(); ++i)
+        {
+            for(int j = 0; j < grid.GetHeight(); ++j)
+            {
+                PathNode curElement = grid.GetValue(i, j);
+                if (!curElement.isWalkable)
+                    obstacleList.Add(curElement);
+            }
         }
 
+        return obstacleList;
+    }
 
+    public double CalculateObstacleDistribution()
+    {
+        // for each obstacle, loop over other obstacles
+        List<PathNode> obstacleList = GetObstacleList();
 
+        double sumDistances = 0f;
+        for(int i = 0; i < obstacleList.Count; ++i)
+        {
+            for(int j = i; j < obstacleList.Count; ++j)
+            {
+                PathNode obstacleI = obstacleList[i];
+                PathNode obstacleJ = obstacleList[j];
+
+                sumDistances += Math.Sqrt(Math.Pow(obstacleI.x - obstacleJ.x, 2) + Math.Pow(obstacleI.y - obstacleJ.y, 2));
+            }
+        }
+
+        return sumDistances / obstacleList.Count();
     }
 
     void ResetCells()
