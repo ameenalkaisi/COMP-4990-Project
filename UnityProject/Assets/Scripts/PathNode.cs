@@ -20,7 +20,7 @@ public class PathNode
         isWalkable = true;
     }
 
-    public void CalculateFCost()
+    public void AStarCalculateFCost()
     {
         fCost = gCost + hCost;
     }
@@ -36,4 +36,10 @@ public class PathNode
     {
         return x + "," + y + (isWalkable ? "" : "\nX");
     }
+
+    public void DijkstrasCalculateFCost()
+    {
+        fCost = gCost; //+ hCost;
+    }
+
 }
