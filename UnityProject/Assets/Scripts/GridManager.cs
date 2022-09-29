@@ -36,26 +36,26 @@ public class GridManager : MonoBehaviour
         RandomizeBlockedElements(obstacleDensity, minObstacleDistribution, maxObstacleDistribution);
     }
 
-/*
-    // Update is called once per frame
-    void Update()
-    {
-        if (Input.GetMouseButtonDown(0))
+    /*
+        // Update is called once per frame
+        void Update()
         {
-            Vector3 mouseWPos = UtilsClass.GetMouseWorldPosition();
-            Vector2Int? gridPos = pathfinding.GetGrid().GetLocalPosition(mouseWPos);
-            //Debug.Log(gridPos);
-
-            pathfindingDebugVisual.ClearSnapshots();
-            List<PathNode> path;
-            if(gridPos.HasValue)
-                path = pathfinding.FindPathWithSnapshots_AStar(0, 0, gridPos.Value.x, gridPos.Value.y, pathfindingDebugVisual);
-            
-            /*Debug.Log(path.Count);
-            foreach(PathNode node in path)
+            if (Input.GetMouseButtonDown(0))
             {
-                Debug.Log(node);
-            }*/
+                Vector3 mouseWPos = UtilsClass.GetMouseWorldPosition();
+                Vector2Int? gridPos = pathfinding.GetGrid().GetLocalPosition(mouseWPos);
+                //Debug.Log(gridPos);
+
+                pathfindingDebugVisual.ClearSnapshots();
+                List<PathNode> path;
+                if(gridPos.HasValue)
+                    path = pathfinding.FindPathWithSnapshots_AStar(0, 0, gridPos.Value.x, gridPos.Value.y, pathfindingDebugVisual);
+
+                /*Debug.Log(path.Count);
+                foreach(PathNode node in path)
+                {
+                    Debug.Log(node);
+                }*/
             /* if(path != null)
             {
                 Color lineColor = new Color(Random.Range(0, 100) / 100f, Random.Range(0, 100) / 100f, Random.Range(0, 100) / 100f);
@@ -68,10 +68,9 @@ public class GridManager : MonoBehaviour
                     Debug.DrawLine(firstPosition + Vector3.one * cellSize / 2f, secondPosition + Vector3.one * cellSize / 2f, lineColor, 100f);
                 }
             } 
-
         }*/
 
-        // Update is called once per frame
+    // Update is called once per frame
     void Update()
     {
         if (Input.GetMouseButtonDown(0))
@@ -172,7 +171,10 @@ public class GridManager : MonoBehaviour
 
             // calculate threshold
             calculatedObstacleDistribution = CalculateObstacleDistribution();
-        } while ((minObstacleDistribution > calculatedObstacleDistribution || calculatedObstacleDistribution > maxObstacleDistribution) && --maxTries > 0); // do until it meets the obstacel distribution threshold
+        } while ((minObstacleDistribution > calculatedObstacleDistribution 
+                    || calculatedObstacleDistribution > maxObstacleDistribution)
+                    //|| pathfinding.FindPath_AStar(0, 0, grid.GetWidth() - 1, grid.GetHeight() - 1) == null)
+                && --maxTries > 0);
 
         Debug.Log(calculatedObstacleDistribution);
     }

@@ -174,7 +174,7 @@ public class PathfindingDebugStepVisual : MonoBehaviour {
     }
 
     private void SetupVisualNode(Transform visualNodeTransform, int gCost, int hCost, int fCost) {
-        if (Math.Abs(fCost) < 1000) {
+        if (fCost < 1000 && fCost > -1000) {
             visualNodeTransform.Find("gCostText").GetComponent<TextMeshPro>().SetText(gCost.ToString());
             visualNodeTransform.Find("hCostText").GetComponent<TextMeshPro>().SetText(hCost.ToString());
             visualNodeTransform.Find("fCostText").GetComponent<TextMeshPro>().SetText(fCost.ToString());

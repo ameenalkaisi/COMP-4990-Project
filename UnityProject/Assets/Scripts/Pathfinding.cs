@@ -44,7 +44,7 @@ public class Pathfinding
         //startNode.hCost = CalculateDistanceCost(startNode, endNode);
         startNode.DijkstrasCalculateFCost();
 
-          while(openList.Count > 0)
+        while (openList.Count > 0)
         {
             PathNode currentNode = GetLowestFCostNode(openList);
             if (currentNode == endNode)
@@ -53,15 +53,17 @@ public class Pathfinding
             openList.Remove(currentNode);
             closedList.Add(currentNode);
 
-            foreach(PathNode neighbourNode in GetNeighbourList(currentNode)) {
+            foreach (PathNode neighbourNode in GetNeighbourList(currentNode)) {
                 if (closedList.Contains(neighbourNode)) continue;
-                if(!neighbourNode.isWalkable)
+
+                if (!neighbourNode.isWalkable)
                 {
                     closedList.Add(neighbourNode);
                     continue;
                 }
 
                 int tentativeGCost = currentNode.gCost + CalculateDistanceCost(currentNode, neighbourNode);
+
                 if(tentativeGCost < neighbourNode.gCost)
                 {
                     neighbourNode.cameFromNode = currentNode;
@@ -77,10 +79,9 @@ public class Pathfinding
 
         // out of nodes on open list, no path exists
         return null;
-    
     }
 
-     public List<PathNode> FindPathWithSnapshots_Dijkstras(int startX, int startY, int endX, int endY, PathfindingDebugStepVisual pathNodeStepVisual)
+    public List<PathNode> FindPathWithSnapshots_Dijkstras(int startX, int startY, int endX, int endY, PathfindingDebugStepVisual pathNodeStepVisual) 
     {
         PathNode startNode = grid.GetValue(startX, startY);
         PathNode endNode = grid.GetValue(endX, endY);
@@ -119,10 +120,10 @@ public class Pathfinding
             closedList.Add(currentNode);
 
             pathNodeStepVisual.TakeSnapshot(grid, currentNode, openList, closedList);
-
-            foreach(PathNode neighbourNode in GetNeighbourList(currentNode)) {
+            foreach (PathNode neighbourNode in GetNeighbourList(currentNode))
+            {
                 if (closedList.Contains(neighbourNode)) continue;
-                if(!neighbourNode.isWalkable)
+                if (!neighbourNode.isWalkable)
                 {
                     closedList.Add(neighbourNode);
                     continue;
@@ -132,7 +133,7 @@ public class Pathfinding
                 if(tentativeGCost < neighbourNode.gCost)
                 {
                     neighbourNode.cameFromNode = currentNode;
-                    neighbourNode.gCost = tentativeGCost + CalculateDistanceCost(neighbourNode, startNode);
+                    neighbourNode.gCost = tentativeGCost;
                     //neighbourNode.hCost = CalculateDistanceCost(neighbourNode, endNode);
                     neighbourNode.DijkstrasCalculateFCost();
 
@@ -204,7 +205,6 @@ public class Pathfinding
         // out of nodes on open list, no path exists
         return null;
     }
-    
 
     public List<PathNode> FindPathWithSnapshots_AStar(int startX, int startY, int endX, int endY, PathfindingDebugStepVisual pathNodeStepVisual)
     {
@@ -301,12 +301,17 @@ public class Pathfinding
         return path;
     }
 
-    private int CalculateDistanceCost(PathNode a, PathNode b)
+    /*private int CalculateDistanceCost(PathNode a, PathNode b)
     {
         int xDistance = Mathf.Abs(a.x - b.x);
         int yDistance = Mathf.Abs(a.y - b.y);
 
         return MOVE_STRAIGHT_COST * Mathf.Abs(xDistance - yDistance);
+    }*/
+
+    private int CalculateDistanceCost(PathNode a, PathNode b)
+    {
+        return Mathf.FloorToInt(Mathf.Sqrt(Mathf.Pow(a.x - b.x, 2) + Mathf.Pow(a.y - b.y, 2)));
     }
 
     private PathNode GetLowestFCostNode(List<PathNode> pathNodeList)
