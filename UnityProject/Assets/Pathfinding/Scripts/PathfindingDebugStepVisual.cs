@@ -169,7 +169,7 @@ public class PathfindingDebugStepVisual : MonoBehaviour {
     }
 
     private Transform CreateVisualNode(Vector3 position) {
-        Transform visualNodeTransform = Instantiate(pfPathfindingDebugStepVisualNode, position, Quaternion.identity);
+        Transform visualNodeTransform = Instantiate(pfPathfindingDebugStepVisualNode, position, Quaternion.identity, transform);
         return visualNodeTransform;
     }
 
