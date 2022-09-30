@@ -9,6 +9,11 @@ public class Pathfinding
     private GridMap<PathNode> grid;
     private List<PathNode> openList, closedList;
 
+    public enum ALGORITHM_TYPES
+    {
+        ASTAR, DIJSKTRA
+    }
+
     public Pathfinding(int width, int height, Vector3 originPosition, float cellSize = 10f)
     {
         grid = new GridMap<PathNode>(width, height, cellSize, originPosition,

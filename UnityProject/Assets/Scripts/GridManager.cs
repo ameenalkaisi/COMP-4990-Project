@@ -20,6 +20,8 @@ public class GridManager : MonoBehaviour
 
     public int maxTriesForRandomness = 1000;
 
+    public Pathfinding.ALGORITHM_TYPES currentAlgorithmType;
+
     private Pathfinding pathfinding;
     private System.Random random;
 
@@ -81,8 +83,22 @@ public class GridManager : MonoBehaviour
 
             pathfindingDebugVisual.ClearSnapshots();
             List<PathNode> path;
-            if(gridPos.HasValue)
-                path = pathfinding.FindPathWithSnapshots_Dijkstras(0, 0, gridPos.Value.x, gridPos.Value.y, pathfindingDebugVisual);
+            if (gridPos.HasValue)
+            {
+                switch (currentAlgorithmType)
+                {
+                    case Pathfinding.ALGORITHM_TYPES.ASTAR:
+                        path = pathfinding.FindPathWithSnapshots_AStar(0, 0, gridPos.Value.x, gridPos.Value.y, pathfindingDebugVisual);
+                        break;
+
+                    case Pathfinding.ALGORITHM_TYPES.DIJSKTRA:
+                        path = pathfinding.FindPathWithSnapshots_Dijkstras(0, 0, gridPos.Value.x, gridPos.Value.y, pathfindingDebugVisual);
+                        break;
+
+                    default:
+                        break;
+                }
+            }
             
             /*Debug.Log(path.Count);
             foreach(PathNode node in path)
