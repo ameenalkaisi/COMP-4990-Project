@@ -22,7 +22,7 @@ public class GridManager : MonoBehaviour
 
     public Pathfinding.ALGORITHM_TYPES currentAlgorithmType;
 
-    private Pathfinding pathfinding;
+    public Pathfinding pathfinding;
     private System.Random random;
 
     // Start is called before the first frame update
