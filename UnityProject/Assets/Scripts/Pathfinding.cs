@@ -7,7 +7,7 @@ public class Pathfinding
     private const int MOVE_STRAIGHT_COST = 10;
 
     private GridMap<PathNode> grid;
-    private List<PathNode> openList, closedList;
+    public List<PathNode> openList, closedList;
 
     public enum ALGORITHM_TYPES
     {
