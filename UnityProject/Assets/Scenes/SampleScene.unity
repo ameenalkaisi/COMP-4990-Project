@@ -315,6 +315,7 @@ MonoBehaviour:
   normalMove: 100
   fastMove: 250
   scrollSpeed: 10
+  panSpeed: 0.005
 --- !u!1 &996858424
 GameObject:
   m_ObjectHideFlags: 0

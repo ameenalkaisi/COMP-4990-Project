@@ -1,3 +1,4 @@
+using CodeMonkey.Utils;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -9,8 +10,11 @@ public class CameraMovement : MonoBehaviour
     public float normalMove = 100f;
     public float fastMove = 250f;
     public float scrollSpeed = 10f;
+    public float panSpeed = 0.005f;
 
     private float currentMoveSpeed;
+
+    private Vector3 mouseOriginPos;
 
     // Update is called once per frame
     void Update()
@@ -40,5 +44,12 @@ public class CameraMovement : MonoBehaviour
         
         if (Input.GetAxis("Mouse ScrollWheel") < 0f)
             GetComponent<Camera>().orthographicSize += scrollSpeed;
+
+        // Middle click movement
+        if (Input.GetMouseButtonDown(2))
+            mouseOriginPos = Input.mousePosition;
+
+        if (Input.GetMouseButton(2))
+            transform.position += -panSpeed*(mouseOriginPos - Input.mousePosition);
     }
 }
