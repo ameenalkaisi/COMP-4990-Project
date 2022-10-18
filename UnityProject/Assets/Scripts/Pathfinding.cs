@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,7 +12,7 @@ public class Pathfinding
 
     public enum ALGORITHM_TYPES
     {
-        ASTAR, DIJSKTRA
+        ASTAR, DIJSKTRA, DEPTH_FIRST_SEARCH
     }
 
     public Pathfinding(int width, int height, Vector3 originPosition, float cellSize = 10f)
@@ -276,17 +277,124 @@ public class Pathfinding
         return null;
     }
 
+    public List<PathNode> FindPath_DepthFirst(int startX, int startY, int endX, int endY)
+    {
+        PathNode startNode = grid.GetValue(startX, startY);
+        PathNode endNode = grid.GetValue(endX, endY);
+
+
+        openList = new List<PathNode>() { startNode };
+        closedList = new List<PathNode>();
+
+        Stack<PathNode> searchStack = new Stack<PathNode>();
+        searchStack.Push(startNode);
+
+        while(searchStack.Count > 0)
+        {
+            PathNode currentNode = searchStack.Pop();
+
+            if (currentNode == endNode)
+            {
+                List<PathNode> finalPath = CalculatePath(endNode);
+                return finalPath;
+            }
+
+            closedList.Add(currentNode);
+            openList.Remove(currentNode);
+
+            List<PathNode> neighbours = GetNeighbourList(currentNode);
+            neighbours.Reverse();
+
+            // GetNeighbourList orders the list from left - up - right - bottom
+            // find the first available node and go into it
+            foreach (PathNode neighbour in neighbours)
+            {
+                if (closedList.Contains(neighbour) || !neighbour.isWalkable || openList.Contains(neighbour))
+                    continue;
+
+                neighbour.cameFromNode = currentNode;
+                openList.Add(neighbour);
+                searchStack.Push(neighbour);
+            }
+        }
+
+        return null;
+
+    }
+
+    public List<PathNode> FindPathWithSnapshots_DepthFirst(int startX, int startY, int endX, int endY, PathfindingDebugStepVisual pathNodeStepVisual)
+    {
+        PathNode startNode = grid.GetValue(startX, startY);
+        PathNode endNode = grid.GetValue(endX, endY);
+
+        for(int i = 0; i < grid.GetWidth(); ++i)
+        {
+            for(int j = 0; j < grid.GetHeight(); ++j)
+            {
+                PathNode node = grid.GetValue(i, j);
+                node.hCost = node.gCost = node.fCost = 0;
+            }
+        }
+
+        openList = new List<PathNode>() { startNode };
+        closedList = new List<PathNode>();
+
+        Stack<PathNode> searchStack = new Stack<PathNode>();
+        searchStack.Push(startNode);
+
+        while(searchStack.Count > 0)
+        {
+            PathNode currentNode = searchStack.Pop();
+
+            pathNodeStepVisual.TakeSnapshot(grid, currentNode, openList, closedList);
+
+            if (currentNode == endNode)
+            {
+                List<PathNode> finalPath = CalculatePath(endNode);
+                pathNodeStepVisual.TakeSnapshotFinalPath(grid, finalPath);
+                return finalPath;
+            }
+
+            closedList.Add(currentNode);
+            openList.Remove(currentNode);
+
+            List<PathNode> neighbours = GetNeighbourList(currentNode);
+            neighbours.Reverse();
+
+            // GetNeighbourList orders the list from left - up - right - bottom
+            // find the first available node and go into it
+            foreach (PathNode neighbour in neighbours)
+            {
+                if (closedList.Contains(neighbour) || !neighbour.isWalkable || openList.Contains(neighbour))
+                    continue;
+
+                neighbour.cameFromNode = currentNode;
+                openList.Add(neighbour);
+                searchStack.Push(neighbour);
+            }
+        }
+
+        return null;
+    }
+
+    private Boolean isValidNode(int x, int y)
+    {
+        return x >= 0 && y >= 0 && x < grid.GetWidth() && y < grid.GetHeight();
+    }
+
     private List<PathNode> GetNeighbourList(PathNode currentNode)
     {
         List<PathNode> neighbourList = new List<PathNode>();
-        for(int i = -1; i <= 1; i += 2)
-        {
-            if (currentNode.x + i >= 0 && currentNode.x + i < grid.GetWidth())
-                neighbourList.Add(grid.GetValue(currentNode.x + i, currentNode.y));
 
-            if (currentNode.y + i >= 0 && currentNode.y + i < grid.GetHeight())
-                neighbourList.Add(grid.GetValue(currentNode.x, currentNode.y + i));
-        }
+        // should be in order left, up, right, down
+        if (isValidNode(currentNode.x - 1, currentNode.y))
+            neighbourList.Add(grid.GetValue(currentNode.x - 1, currentNode.y));
+        if (isValidNode(currentNode.x, currentNode.y + 1))
+            neighbourList.Add(grid.GetValue(currentNode.x, currentNode.y + 1));
+        if (isValidNode(currentNode.x + 1, currentNode.y))
+            neighbourList.Add(grid.GetValue(currentNode.x + 1, currentNode.y));
+        if (isValidNode(currentNode.x, currentNode.y - 1))
+            neighbourList.Add(grid.GetValue(currentNode.x, currentNode.y - 1));
 
         return neighbourList;
     }
