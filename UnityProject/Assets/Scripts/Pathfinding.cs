@@ -432,7 +432,7 @@ public class Pathfinding
             openList.Remove(currentNode);
 
             List<PathNode> neighbours = GetNeighbourList(currentNode);
-           //neighbours.Reverse();
+            neighbours.Reverse();
 
             // GetNeighbourList orders the list from left - up - right - bottom
             // find the first available node and go into it
@@ -460,14 +460,18 @@ public class Pathfinding
         List<PathNode> neighbourList = new List<PathNode>();
 
         // should be in order left, up, right, down
+        // left
         if (isValidNode(currentNode.x - 1, currentNode.y))
             neighbourList.Add(grid.GetValue(currentNode.x - 1, currentNode.y));
-        if (isValidNode(currentNode.x, currentNode.y + 1))
-            neighbourList.Add(grid.GetValue(currentNode.x, currentNode.y + 1));
-        if (isValidNode(currentNode.x + 1, currentNode.y))
-            neighbourList.Add(grid.GetValue(currentNode.x + 1, currentNode.y));
+        // up
         if (isValidNode(currentNode.x, currentNode.y - 1))
             neighbourList.Add(grid.GetValue(currentNode.x, currentNode.y - 1));
+        // right
+        if (isValidNode(currentNode.x + 1, currentNode.y))
+            neighbourList.Add(grid.GetValue(currentNode.x + 1, currentNode.y));
+        // down
+        if (isValidNode(currentNode.x, currentNode.y + 1))
+            neighbourList.Add(grid.GetValue(currentNode.x, currentNode.y + 1));
 
         return neighbourList;
     }

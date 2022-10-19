@@ -15,6 +15,8 @@ public class GridManager : MonoBehaviour
 	public int width, height;
 	public float cellSize;
 
+    public Vector2Int startPoint;
+
     public float obstacleDensity;
     public double minObstacleDistribution, maxObstacleDistribution;
 
@@ -51,7 +53,7 @@ public class GridManager : MonoBehaviour
                 pathfindingDebugVisual.ClearSnapshots();
                 List<PathNode> path;
                 if(gridPos.HasValue)
-                    path = pathfinding.FindPathWithSnapshots_AStar(0, 0, gridPos.Value.x, gridPos.Value.y, pathfindingDebugVisual);
+                    path = pathfinding.FindPathWithSnapshots_AStar(startPoint.x, startPoint.y, gridPos.Value.x, gridPos.Value.y, pathfindingDebugVisual);
 
                 /*Debug.Log(path.Count);
                 foreach(PathNode node in path)
@@ -88,19 +90,19 @@ public class GridManager : MonoBehaviour
                 switch (currentAlgorithmType)
                 {
                     case Pathfinding.ALGORITHM_TYPES.ASTAR:
-                        path = pathfinding.FindPathWithSnapshots_AStar(0, 0, gridPos.Value.x, gridPos.Value.y, pathfindingDebugVisual);
+                        path = pathfinding.FindPathWithSnapshots_AStar(startPoint.x, startPoint.y, gridPos.Value.x, gridPos.Value.y, pathfindingDebugVisual);
                         break;
 
                     case Pathfinding.ALGORITHM_TYPES.DIJSKTRA:
-                        path = pathfinding.FindPathWithSnapshots_Dijkstras(0, 0, gridPos.Value.x, gridPos.Value.y, pathfindingDebugVisual);
+                        path = pathfinding.FindPathWithSnapshots_Dijkstras(startPoint.x, startPoint.y, gridPos.Value.x, gridPos.Value.y, pathfindingDebugVisual);
                         break;
 
                     case Pathfinding.ALGORITHM_TYPES.DEPTH_FIRST_SEARCH:
-                        path = pathfinding.FindPathWithSnapshots_DepthFirst(0, 0, gridPos.Value.x, gridPos.Value.y, pathfindingDebugVisual);
+                        path = pathfinding.FindPathWithSnapshots_DepthFirst(startPoint.x, startPoint.y, gridPos.Value.x, gridPos.Value.y, pathfindingDebugVisual);
                         break;
                     
                     case Pathfinding.ALGORITHM_TYPES.BREADTH_FIRST_SEARCH:
-                        path = pathfinding.FindPathWithSnapshots_BreadthFirst(0, 0, gridPos.Value.x, gridPos.Value.y, pathfindingDebugVisual);
+                        path = pathfinding.FindPathWithSnapshots_BreadthFirst(startPoint.x, startPoint.y, gridPos.Value.x, gridPos.Value.y, pathfindingDebugVisual);
                         break;
 
                     default:
@@ -168,7 +170,7 @@ public class GridManager : MonoBehaviour
         {
             remainingElements.Clear();
             ResetCells();
-            // remove (0, 0) from being picked
+            // remove (startPoint.x, startPoint.y) from being picked
             for (int i = 0; i < grid.GetWidth(); ++i)
                 for (int j = 0; j < grid.GetHeight(); ++j)
                     if (i != 0 || j != 0)
@@ -197,7 +199,7 @@ public class GridManager : MonoBehaviour
             calculatedObstacleDistribution = CalculateObstacleDistribution();
         } while ((minObstacleDistribution > calculatedObstacleDistribution 
                     || calculatedObstacleDistribution > maxObstacleDistribution)
-                    //|| pathfinding.FindPath_AStar(0, 0, grid.GetWidth() - 1, grid.GetHeight() - 1) == null)
+                    //|| pathfinding.FindPath_AStar(startPoint.x, startPoint.y, grid.GetWidth() - 1, grid.GetHeight() - 1) == null)
                 && --maxTries > 0);
 
         Debug.Log(calculatedObstacleDistribution);
