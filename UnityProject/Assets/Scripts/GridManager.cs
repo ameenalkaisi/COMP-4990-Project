@@ -98,6 +98,10 @@ public class GridManager : MonoBehaviour
                     case Pathfinding.ALGORITHM_TYPES.DEPTH_FIRST_SEARCH:
                         path = pathfinding.FindPathWithSnapshots_DepthFirst(0, 0, gridPos.Value.x, gridPos.Value.y, pathfindingDebugVisual);
                         break;
+                    
+                    case Pathfinding.ALGORITHM_TYPES.BREADTH_FIRST_SEARCH:
+                        path = pathfinding.FindPathWithSnapshots_BreadthFirst(0, 0, gridPos.Value.x, gridPos.Value.y, pathfindingDebugVisual);
+                        break;
 
                     default:
                         break;

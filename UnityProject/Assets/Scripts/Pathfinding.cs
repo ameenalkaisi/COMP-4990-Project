@@ -12,7 +12,7 @@ public class Pathfinding
 
     public enum ALGORITHM_TYPES
     {
-        ASTAR, DIJSKTRA, DEPTH_FIRST_SEARCH
+        ASTAR, DIJSKTRA, DEPTH_FIRST_SEARCH, BREADTH_FIRST_SEARCH
     }
 
     public Pathfinding(int width, int height, Vector3 originPosition, float cellSize = 10f)
@@ -25,6 +25,79 @@ public class Pathfinding
     {
         return grid;
     }
+
+    public List<PathNode> FindPath_BreadthFirst(int startX, int startY, int endX, int endY)
+    {
+        PathNode startNode = grid.GetValue(startX, startY);
+        PathNode endNode = grid.GetValue(endX, endY);
+
+        openList = new List<PathNode>() { startNode };
+        closedList = new List<PathNode>();
+
+        while(openList.Count != 0)
+        {
+
+            PathNode currentNode = GetLowestFCostNode(openList);
+
+            if (currentNode == endNode)
+                
+                return CalculatePath(endNode);
+
+            openList.Remove(currentNode);
+            closedList.Add(currentNode);
+        
+        List<PathNode> neighbours = GetNeighbourList(currentNode);
+        foreach (PathNode neighbour in neighbours)
+            {
+                if (closedList.Contains(neighbour) || !neighbour.isWalkable || openList.Contains(neighbour))
+                    continue;
+
+                neighbour.cameFromNode = currentNode;
+                openList.Add(neighbour);
+            }
+        }
+        return null;
+    }
+
+     public List<PathNode> FindPathWithSnapshots_BreadthFirst(int startX, int startY, int endX, int endY, PathfindingDebugStepVisual pathNodeStepVisual)
+    {
+        PathNode startNode = grid.GetValue(startX, startY);
+        PathNode endNode = grid.GetValue(endX, endY);
+
+        openList = new List<PathNode>() { startNode };
+        closedList = new List<PathNode>();
+
+        while(openList.Count != 0)
+        {
+            PathNode currentNode = GetLowestFCostNode(openList);
+            pathNodeStepVisual.TakeSnapshot(grid, currentNode, openList, closedList);
+
+            if (currentNode == endNode)
+            {
+                List<PathNode> finalPath = CalculatePath(endNode);
+                pathNodeStepVisual.TakeSnapshotFinalPath(grid, finalPath);
+                return CalculatePath(endNode);
+            }
+
+            openList.Remove(currentNode);
+            closedList.Add(currentNode);
+
+        
+        List<PathNode> neighbours = GetNeighbourList(currentNode);
+         foreach (PathNode neighbour in neighbours)
+            {
+                if (closedList.Contains(neighbour) || !neighbour.isWalkable || openList.Contains(neighbour))
+                    continue;
+
+                neighbour.cameFromNode = currentNode;
+                openList.Add(neighbour);
+            }
+        }
+
+
+        return null;
+    }
+
 
     public List<PathNode> FindPath_Dijkstras(int startX, int startY, int endX, int endY)
     {
@@ -303,7 +376,7 @@ public class Pathfinding
             openList.Remove(currentNode);
 
             List<PathNode> neighbours = GetNeighbourList(currentNode);
-            neighbours.Reverse();
+            //neighbours.Reverse();
 
             // GetNeighbourList orders the list from left - up - right - bottom
             // find the first available node and go into it
@@ -359,7 +432,7 @@ public class Pathfinding
             openList.Remove(currentNode);
 
             List<PathNode> neighbours = GetNeighbourList(currentNode);
-            neighbours.Reverse();
+           //neighbours.Reverse();
 
             // GetNeighbourList orders the list from left - up - right - bottom
             // find the first available node and go into it
