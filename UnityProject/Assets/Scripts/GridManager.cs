@@ -198,8 +198,8 @@ public class GridManager : MonoBehaviour
             // calculate threshold
             calculatedObstacleDistribution = CalculateObstacleDistribution();
         } while ((minObstacleDistribution > calculatedObstacleDistribution 
-                    || calculatedObstacleDistribution > maxObstacleDistribution)
-                    //|| pathfinding.FindPath_AStar(startPoint.x, startPoint.y, grid.GetWidth() - 1, grid.GetHeight() - 1) == null)
+                    || calculatedObstacleDistribution > maxObstacleDistribution
+                    || pathfinding.FindPath_AStar(startPoint.x, startPoint.y, grid.GetWidth() - 1, grid.GetHeight() - 1) == null)
                 && --maxTries > 0);
 
         Debug.Log(calculatedObstacleDistribution);

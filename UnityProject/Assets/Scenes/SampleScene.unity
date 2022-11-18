@@ -573,7 +573,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7469364339840182893, guid: f7cb15eaa59d3934992b9388be3d3591, type: 3}
       propertyPath: obstacleDensity
-      value: 0.2
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 7469364339840182893, guid: f7cb15eaa59d3934992b9388be3d3591, type: 3}
       propertyPath: currentAlgorithmType
@@ -582,6 +582,10 @@ PrefabInstance:
     - target: {fileID: 7469364339840182893, guid: f7cb15eaa59d3934992b9388be3d3591, type: 3}
       propertyPath: maxObstacleDistribution
       value: 99999
+      objectReference: {fileID: 0}
+    - target: {fileID: 7469364339840182893, guid: f7cb15eaa59d3934992b9388be3d3591, type: 3}
+      propertyPath: minObstacleDistribution
+      value: 1.92
       objectReference: {fileID: 0}
     - target: {fileID: 7469364339840182893, guid: f7cb15eaa59d3934992b9388be3d3591, type: 3}
       propertyPath: numberOfBlockedElements
