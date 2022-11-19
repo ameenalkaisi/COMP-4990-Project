@@ -84,7 +84,7 @@ public class GridManager : MonoBehaviour
             //Debug.Log(gridPos);
 
             pathfindingDebugVisual.ClearSnapshots();
-            List<PathNode> path;
+            List<PathNode> path = new List<PathNode>();
             if (gridPos.HasValue)
             {
                 switch (currentAlgorithmType)
@@ -109,6 +109,8 @@ public class GridManager : MonoBehaviour
                         break;
                 }
             }
+
+            Debug.Log(path.Count);
             
             /*Debug.Log(path.Count);
             foreach(PathNode node in path)
@@ -146,12 +148,12 @@ public class GridManager : MonoBehaviour
 
         if(Input.GetKeyDown(KeyCode.R))
         {
-            ResetCells();
+            //ResetCells();
         }
 
         if(Input.GetKeyDown(KeyCode.T))
         {
-            RandomizeBlockedElements(obstacleDensity, minObstacleDistribution, maxObstacleDistribution);
+            //RandomizeBlockedElements(obstacleDensity, minObstacleDistribution, maxObstacleDistribution);
         }
 
 
